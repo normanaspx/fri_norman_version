@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:background="@drawable/gradient"
         android:layout_height="40dp"
-
         android:layout_alignBottom="@id/imgCard"
         />
 
