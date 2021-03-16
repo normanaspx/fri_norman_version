@@ -27,24 +27,14 @@
         android:layout_alignBottom="@id/imgCard"
         android:layout_height="wrap_content"/>
 
-    <ImageView
-        android:id="@+id/imgFav"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@id/imgCard"
-        android:layout_alignBottom="@id/imgCard"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/ic_favorite_border_24px"
-        app:tint="#fff" />
+
     <TextView
         android:layout_width="wrap_content"
         tools:text="144"
         android:gravity="center"
        android:id="@+id/txtLikes"
         android:layout_margin="8dp"
-        android:layout_toLeftOf="@id/imgFav"
+        android:layout_alignRight="@id/imgCard"
         android:textColor="#fff"
         app:drawableStartCompat="@drawable/ic_thumb_up_off_alt_24px"
         android:layout_alignBottom="@id/imgCard"
