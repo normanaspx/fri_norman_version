@@ -1,22 +1,16 @@
 package com.normanaspx.norman_fri.ui.gallery
 
-import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.LOG
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.normanaspx.norman_fri.R
-import com.normanaspx.norman_fri.data.Photo
+import com.normanaspx.norman_fri.data.models.Photo
 import com.normanaspx.norman_fri.databinding.ItemPhotoBinding
-import kotlinx.android.synthetic.main.item_photo.view.*
-import java.sql.Array
 
 
 /**

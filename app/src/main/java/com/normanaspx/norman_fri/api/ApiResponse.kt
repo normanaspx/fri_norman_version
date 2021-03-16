@@ -1,6 +1,6 @@
 package com.normanaspx.norman_fri.api
 
-import com.normanaspx.norman_fri.data.Photo
+import com.normanaspx.norman_fri.data.models.Photo
 
 
 /**

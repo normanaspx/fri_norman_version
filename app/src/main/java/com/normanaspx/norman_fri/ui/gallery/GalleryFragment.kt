@@ -9,10 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.normanaspx.norman_fri.R
-import com.normanaspx.norman_fri.data.Photo
+import com.normanaspx.norman_fri.data.models.Photo
 import com.normanaspx.norman_fri.databinding.FragmentGalleryBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
 
 
 /**

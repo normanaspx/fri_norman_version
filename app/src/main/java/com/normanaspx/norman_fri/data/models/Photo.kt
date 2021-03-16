@@ -1,4 +1,4 @@
-package com.normanaspx.norman_fri.data
+package com.normanaspx.norman_fri.data.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -19,7 +19,7 @@ data class Photo(
         val full: String,
         val regular: String,
         val small: String,
-        val thumb: String,
+        val thumb: String
     ) : Parcelable
 
     @Parcelize
