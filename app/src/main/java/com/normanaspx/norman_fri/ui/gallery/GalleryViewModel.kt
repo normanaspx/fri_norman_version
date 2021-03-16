@@ -3,8 +3,10 @@ package com.normanaspx.norman_fri.ui.gallery
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
+import com.normanaspx.norman_fri.data.Photo
 import com.normanaspx.norman_fri.data.models.PhotoEntity
 import com.normanaspx.norman_fri.data.UnsplashRepository
+import com.normanaspx.norman_fri.data.models.PhotoWithDetails
 import kotlinx.coroutines.launch
 
 class GalleryViewModel @ViewModelInject constructor( private val repository: UnsplashRepository) : ViewModel() {
@@ -23,7 +25,7 @@ class GalleryViewModel @ViewModelInject constructor( private val repository: Uns
         private const val DEFAULT_QUERY = "cats"
     }
 
-    fun insert(user: PhotoEntity){
+    fun insert(user: PhotoWithDetails){
         viewModelScope.launch {
             repository.insertPhoto(user)
         }

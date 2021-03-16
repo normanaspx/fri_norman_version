@@ -1,4 +1,4 @@
-package com.normanaspx.norman_fri.ui.gallery
+package com.normanaspx.norman_fri.ui.favs
 
 import android.os.Bundle
 import android.view.Menu
@@ -11,6 +11,10 @@ import androidx.navigation.fragment.findNavController
 import com.normanaspx.norman_fri.R
 import com.normanaspx.norman_fri.data.Photo
 import com.normanaspx.norman_fri.databinding.FragmentGalleryBinding
+import com.normanaspx.norman_fri.ui.gallery.GalleryFragmentDirections
+import com.normanaspx.norman_fri.ui.gallery.GalleryViewModel
+import com.normanaspx.norman_fri.ui.gallery.UnsplashPhotoAdapter
+import com.normanaspx.norman_fri.ui.gallery.UnsplashPhotoLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -19,7 +23,7 @@ Creada por Norman el 3/13/2021
  **/
 
 @AndroidEntryPoint
-class GalleryFragment : Fragment(R.layout.fragment_gallery), UnsplashPhotoAdapter.OnItemClickListener {
+class FavsFragment : Fragment(R.layout.fragment_gallery), UnsplashPhotoAdapter.OnItemClickListener {
 
     private val viewModel by viewModels<GalleryViewModel>()
 

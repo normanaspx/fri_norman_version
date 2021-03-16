@@ -6,12 +6,14 @@ import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.normanaspx.norman_fri.api.PhotoDao
 import com.normanaspx.norman_fri.api.UnsplashApi
+import com.normanaspx.norman_fri.data.models.FavsPagingSource
 import com.normanaspx.norman_fri.data.models.PhotoEntity
+import com.normanaspx.norman_fri.data.models.PhotoWithDetails
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
-
+import kotlinx.coroutines.flow.Flow
 
 /**
 Creada por Norman el 3/13/2021
@@ -31,9 +33,24 @@ class UnsplashRepository @Inject constructor(private val unsplashApi: UnsplashAp
         ).liveData
 
     @WorkerThread
-    suspend fun insertPhoto(user: PhotoEntity) = withContext(Dispatchers.IO){
-        dao.insert(user)
+    suspend fun insertPhoto(item: PhotoWithDetails) = withContext(Dispatchers.IO){
+        dao.insertPhoto(item.photo)
+        dao.insertUrls(item.urls)
+        dao.insertUser(item.user)
+
     }
 
+    fun getSearchResultsFromDatabase(query: String) =
+        Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                maxSize = 100,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { FavsPagingSource(unsplashApi, query, getPhotos) }
+        ).liveData
+
+
+    val getPhotos: Flow<List<PhotoEntity>> = dao.getPhotos()
 
 }

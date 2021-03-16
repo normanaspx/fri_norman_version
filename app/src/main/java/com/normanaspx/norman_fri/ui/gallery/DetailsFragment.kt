@@ -16,6 +16,9 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.normanaspx.norman_fri.R
 import com.normanaspx.norman_fri.data.models.PhotoEntity
+import com.normanaspx.norman_fri.data.models.PhotoWithDetails
+import com.normanaspx.norman_fri.data.models.UrlsEntity
+import com.normanaspx.norman_fri.data.models.UserEntity
 import com.normanaspx.norman_fri.databinding.FragmentDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_details.*
@@ -76,19 +79,27 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             }
 
             imgLike.setOnClickListener {
-                var draw: Int = R.drawable.ic_favorite_border_24px;
                 if(photo.like){
                     photo.like = false
-                    draw = R.drawable.ic_favorite_24px;
+                    Glide.with(this@DetailsFragment)
+                        .load(R.drawable.ic_favorite_border_24px)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(imgLike)
                 }else{
                     photo.like = true
-                    draw = R.drawable.ic_favorite_border_24px;
+                    Glide.with(this@DetailsFragment)
+                        .load( R.drawable.ic_favorite_24px)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(imgLike)
                 }
-                Glide.with(this@DetailsFragment)
-                    .load(draw)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(imgLike)
-                userViewModel.insert(PhotoEntity(photo.id,photo.likes.toString(), photo.user.name))
+
+                val photoDetail: PhotoWithDetails = PhotoWithDetails(
+                    PhotoEntity(photo.id, photo.description, photo.likes, photo.like),
+                    UrlsEntity(photo.urls.raw, photo.urls.full, photo.urls.regular, photo.id),
+                    UserEntity(photo.user.id, photo.user.username, photo.user.name, "photo.user.bio", photo.id)
+                )
+
+                userViewModel.insert(photoDetail)
             }
 
             //user

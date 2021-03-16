@@ -2,7 +2,6 @@ package com.normanaspx.norman_fri.data
 
 import androidx.paging.PagingSource
 import com.normanaspx.norman_fri.api.UnsplashApi
-import com.normanaspx.norman_fri.data.models.Photo
 import retrofit2.HttpException
 import java.io.IOException
 

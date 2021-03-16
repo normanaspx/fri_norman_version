@@ -45,10 +45,6 @@ object AppModule {
 
 
     @Provides
-    fun providesUserRepository(userDao: PhotoDao) : repo
-            = repo( userDao)
-
-    @Provides
     fun providesUserRepository2(userDao: PhotoDao, r: UnsplashApi) : UnsplashRepository
             = UnsplashRepository(r, userDao)
 
