@@ -2,7 +2,8 @@
 
 
 ## Arquitectura
-- Patrom MVVM
+- Kotlin
+- Patron MVVM
 - Injeccion de Dependencias Hilt 
 - Room Database 
 - Recyclerview
