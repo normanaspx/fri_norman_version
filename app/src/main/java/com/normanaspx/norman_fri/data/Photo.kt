@@ -3,6 +3,8 @@ package com.normanaspx.norman_fri.data
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+
+
 @Parcelize
 data class Photo(
     val id: String,
@@ -12,21 +14,20 @@ data class Photo(
     val urls: Urls,
     val user: User
 ) : Parcelable {
-
     @Parcelize
     data class Urls(
-        val raw: String,
-        val full: String,
-        val regular: String,
+        val raw: String?,
+        val full: String?,
+        val regular: String?,
         val small: String,
-        val thumb: String,
+        val thumb: String
     ) : Parcelable
-
     @Parcelize
     data class User(
+        val id: String,
         val name: String,
         val username: String,
-        val bio: String,
+        val bio: String = "",
         val instagram_username: String,
         val twitter_username: String
     ) : Parcelable {

@@ -12,7 +12,6 @@ import com.normanaspx.norman_fri.R
 import com.normanaspx.norman_fri.data.Photo
 import com.normanaspx.norman_fri.databinding.FragmentGalleryBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
 
 
 /**
