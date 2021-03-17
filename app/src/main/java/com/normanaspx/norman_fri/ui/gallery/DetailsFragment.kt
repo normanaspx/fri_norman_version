@@ -51,7 +51,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 bit =  getBitmap(photo.urls.regular!!)
             }
             Glide.with(this@DetailsFragment)
-                .load(photo.urls.image)
+                .load(photo.urls.regular)
                 .error(R.drawable.ic_error)
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(

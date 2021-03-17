@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.normanaspx.norman_fri.data.UnsplashRepository
+import com.normanaspx.norman_fri.data.models.PhotoEntity
 import com.normanaspx.norman_fri.data.models.PhotoWithDetails
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
@@ -22,12 +23,18 @@ class GalleryViewModel @ViewModelInject constructor( private val repository: Uns
     }
 
     companion object {
-        private const val DEFAULT_QUERY = "babies"
+        private const val DEFAULT_QUERY = "random"
     }
 
     fun insert(user: PhotoWithDetails){
         viewModelScope.launch {
             repository.insertPhoto(user)
+        }
+    }
+
+    fun delete(p: PhotoEntity){
+        viewModelScope.launch {
+            repository.deletePhoto(p)
         }
     }
 
