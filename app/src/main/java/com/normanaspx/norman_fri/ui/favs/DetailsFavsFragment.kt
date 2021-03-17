@@ -86,8 +86,10 @@ class DetailsFavsFragment : Fragment(R.layout.fragment_details_favs) {
                 })
                 .into(imageView)
 
+
+
             photo.like = true;
-            checkLike(photo)
+            checkLike(photo, null)
 
             textViewDesc.text = photo.description
             textViewUsername.apply {
@@ -96,16 +98,13 @@ class DetailsFavsFragment : Fragment(R.layout.fragment_details_favs) {
             }
 
             imgLike.setOnClickListener {
-
-
                 val photoDetail: PhotoWithDetails = PhotoWithDetails(
                     PhotoEntity(photo.id, photo.description, photo.likes, photo.like),
                     UrlsEntity(photo.urls.raw, photo.urls.full, photo.urls.regular, bit ,photo.id),
                     UserEntity(photo.user.id, photo.user.name, photo.user.username, photo.user.bio, photo.id)
                 )
-
                 userViewModel.insert(photoDetail)
-                checkLike(photo)
+                checkLike(photo, photoDetail)
             }
             //user
             textViewName.text=photo.user.name
@@ -114,7 +113,7 @@ class DetailsFavsFragment : Fragment(R.layout.fragment_details_favs) {
     }
 
 
-    fun checkLike(photo: Photo){
+    fun checkLike(photo: Photo, p: PhotoWithDetails?){
         if(photo.like){
             photo.like = false
             Glide.with(this@DetailsFavsFragment)
@@ -127,6 +126,8 @@ class DetailsFavsFragment : Fragment(R.layout.fragment_details_favs) {
                 .load( R.drawable.ic_favorite_border_24px)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imgLike)
+
+            userViewModel.delete(p!!.photo)
         }
     }
 

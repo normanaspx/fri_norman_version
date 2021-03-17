@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.normanaspx.norman_fri.api.PhotoDao
 import com.normanaspx.norman_fri.api.UnsplashApi
+import com.normanaspx.norman_fri.data.models.PhotoEntity
 import com.normanaspx.norman_fri.data.models.PhotoWithDetails
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -38,6 +39,9 @@ class UnsplashRepository @Inject constructor(private val unsplashApi: UnsplashAp
 
     }
 
-
+    @WorkerThread
+    suspend fun deletePhoto(item: PhotoEntity) = withContext(Dispatchers.IO){
+        dao.delete(item)
+    }
 
 }
