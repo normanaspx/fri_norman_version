@@ -1,9 +1,13 @@
 # Norman Vicente Unsplash App
 
 
+## Arquitectura
+- Patrom MVVM
+- Injeccion de Dependencias Hilt 
+- Room Database 
+- Recyclerview
 
 ## Caracteristicas
-- Injeccion de Dependencias Hilt, para la base de datos: Room, Recyclerview, Patrom MVVM.
 - Buscador de imagenes consumiendo la API de unsplash
 - Opcion de guardar la imagen sin conexion
 
