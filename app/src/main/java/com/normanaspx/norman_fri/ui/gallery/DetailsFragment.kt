@@ -1,13 +1,19 @@
 package com.normanaspx.norman_fri.ui.gallery
 
+import android.graphics.Bitmap
 import android.graphics.Typeface
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import coil.ImageLoader
+import coil.request.ImageRequest
+import coil.request.SuccessResult
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -22,6 +28,7 @@ import com.normanaspx.norman_fri.data.models.UserEntity
 import com.normanaspx.norman_fri.databinding.FragmentDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_details.*
+import kotlinx.coroutines.launch
 
 
 /**
@@ -35,14 +42,16 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        lateinit var bit: Bitmap
         val binding = FragmentDetailsBinding.bind(view)
 
         binding.apply {
             val photo = args.photo
-
+            lifecycleScope.launch{
+                bit =  getBitmap(photo.urls.regular!!)
+            }
             Glide.with(this@DetailsFragment)
-                .load(photo.urls.full)
+                .load(photo.urls.image)
                 .error(R.drawable.ic_error)
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
@@ -95,7 +104,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
                 val photoDetail: PhotoWithDetails = PhotoWithDetails(
                     PhotoEntity(photo.id, photo.description, photo.likes, photo.like),
-                    UrlsEntity(photo.urls.raw, photo.urls.full, photo.urls.regular, photo.id),
+                    UrlsEntity(photo.urls.raw, photo.urls.full, photo.urls.regular, bit, photo.id),
                     UserEntity(photo.user.id, photo.user.username, photo.user.name, photo.user.bio, photo.id)
                 )
 
@@ -108,5 +117,17 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
 
         }
+    }
+
+    private suspend fun getBitmap(img: String ): Bitmap {
+        val loading = this@DetailsFragment.context?.let { ImageLoader(it) }
+        val request = this@DetailsFragment.context?.let {
+            ImageRequest.Builder(it)
+                .data(img)
+                .build()
+        }
+
+        val result = (request?.let { loading?.execute(it) } as SuccessResult).drawable
+        return (result as BitmapDrawable).bitmap
     }
 }

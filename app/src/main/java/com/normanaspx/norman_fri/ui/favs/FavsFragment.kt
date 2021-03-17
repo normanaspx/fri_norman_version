@@ -1,5 +1,7 @@
 package com.normanaspx.norman_fri.ui.favs
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -15,9 +17,14 @@ import com.normanaspx.norman_fri.data.models.PhotoWithDetails
 import com.normanaspx.norman_fri.ui.gallery.GalleryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.ImageLoader
+import coil.request.ImageRequest
+import coil.request.SuccessResult
 import com.normanaspx.norman_fri.databinding.FragmentFavsBinding
 import kotlinx.android.synthetic.main.item_photo.*
+import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
@@ -28,14 +35,14 @@ Creada por Norman el 3/13/2021
  **/
 
 @AndroidEntryPoint
-class FavsFragment : Fragment(R.layout.fragment_favs), FavsAdapter.OnItemClickListener  {
+class FavsFragment : Fragment(R.layout.fragment_favs), FavsAdapter.OnItemClickListener {
 
     private val userViewModel: GalleryViewModel by viewModels()
     private var _binding: FragmentFavsBinding? = null
     private val binding get() = _binding!!
-    var ls:ArrayList<PhotoWithDetails> = ArrayList()
-    var photos:ArrayList<Photo> = ArrayList()
-    var newList:ArrayList<Photo> = ArrayList()
+    var ls: ArrayList<PhotoWithDetails> = ArrayList()
+    var photos: ArrayList<Photo> = ArrayList()
+    var newList: ArrayList<Photo> = ArrayList()
 
     lateinit var photoadapter: FavsAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,13 +55,28 @@ class FavsFragment : Fragment(R.layout.fragment_favs), FavsAdapter.OnItemClickLi
                 recyclerView.setHasFixedSize(false)
                 recyclerView.adapter = photoadapter
             }
-            if(ls.size==0){
-                userViewModel.getUser.observe(viewLifecycleOwner, Observer {response->
+
+
+            if (ls.size == 0) {
+                userViewModel.getUser.observe(viewLifecycleOwner, Observer { response ->
                     ls = response as ArrayList<PhotoWithDetails>
-                    for(item in ls){
-                        val p: Photo = Photo(item.photo.id, item.photo.description, item.photo.likes, item.photo.like,
-                            Photo.Urls(item.urls!!.raw,item.urls.full,item.urls.regular,"",""),
-                            Photo.User(item.user!!.idUser, item.user.name, item.user.username, item.user.bio, "", ""))
+                    for (item in ls) {
+                        val p: Photo = Photo(
+                            item.photo.id,
+                            item.photo.description,
+                            item.photo.likes,
+                            item.photo.like,
+                            Photo.Urls(item.urls!!.raw, item.urls.full, item.urls.regular,
+                                "", "",item.urls.image),
+                            Photo.User(
+                                item.user!!.idUser,
+                                item.user.name,
+                                item.user.username,
+                                item.user.bio,
+                                "",
+                                ""
+                            )
+                        )
                         photos.add(p)
                     }
                     photoadapter.setUser(photos)
@@ -71,7 +93,7 @@ class FavsFragment : Fragment(R.layout.fragment_favs), FavsAdapter.OnItemClickLi
         inflater.inflate(R.menu.menu_gallery, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
-        if(searchItem != null){
+        if (searchItem != null) {
             val searchView = searchItem.actionView as SearchView
 
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -101,6 +123,16 @@ class FavsFragment : Fragment(R.layout.fragment_favs), FavsAdapter.OnItemClickLi
         findNavController().navigate(action)
     }
 
+    private suspend fun getBitmap(img: String): Bitmap {
+        val loading = this@FavsFragment.context?.let { ImageLoader(it) }
+        val request =  this@FavsFragment.context?.let {
+            ImageRequest.Builder(it)
+                .data(img)
+                .build()
+        }
 
+        val result = (request?.let { loading?.execute(it) } as SuccessResult).drawable
+        return (result as BitmapDrawable).bitmap
+    }
 }
 
