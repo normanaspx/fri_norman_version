@@ -12,10 +12,10 @@ import com.normanaspx.norman_fri.data.models.UserEntity
 Creada por Norman el 3/15/2021
  **/
 @Database(entities = [PhotoEntity::class, UserEntity::class,
-    UrlsEntity::class], version =3, exportSchema = false)
+    UrlsEntity::class], version =5, exportSchema = false)
 //@Database(entities = [PhotoEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun userDao(): PhotoDao
+    abstract fun photoDao(): PhotoDao
 
 }

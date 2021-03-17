@@ -1,8 +1,6 @@
 package com.normanaspx.norman_fri.data
 
 import android.os.Parcelable
-import androidx.room.*
-import androidx.room.ForeignKey.CASCADE
 import kotlinx.android.parcel.Parcelize
 
 
@@ -18,9 +16,9 @@ data class Photo(
 ) : Parcelable {
     @Parcelize
     data class Urls(
-        val raw: String,
-        val full: String,
-        val regular: String,
+        val raw: String?,
+        val full: String?,
+        val regular: String?,
         val small: String,
         val thumb: String
     ) : Parcelable

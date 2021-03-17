@@ -1,6 +1,7 @@
 package com.normanaspx.norman_fri.data.models
 
 import androidx.room.Embedded
+import androidx.room.Junction
 import androidx.room.Relation
 import com.normanaspx.norman_fri.data.Photo
 
@@ -11,16 +12,16 @@ Creada por Norman el 3/15/2021
 data class PhotoWithDetails (
 
     @Embedded
-    var photo: PhotoEntity,
+    val photo: PhotoEntity,
     @Relation(
             parentColumn = "id",
-            entityColumn = "idUrls"
+            entityColumn = "id_fkimage",
         )
-    var urls: UrlsEntity,
+    val urls: UrlsEntity?,
     @Relation(
         parentColumn = "id",
-        entityColumn = "idUser"
+        entityColumn = "id_fkUser",
     )
-    var user: UserEntity
+    val user: UserEntity?
 
 )

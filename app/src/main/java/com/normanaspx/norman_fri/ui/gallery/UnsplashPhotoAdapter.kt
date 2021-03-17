@@ -61,7 +61,7 @@ class UnsplashPhotoAdapter(private val listener: OnItemClickListener):  PagingDa
                         .error(R.drawable.ic_favorite_border_24px)
                         .into(imgCard)
 
-                    username.text = photo.user.username
+                    username.text = "@${photo.user.username}"
                     txtLikes.text = photo.likes.toString()
                 }
             }

@@ -1,6 +1,7 @@
 package com.normanaspx.norman_fri.di
 
 import android.content.Context
+import androidx.annotation.Nullable
 import androidx.room.Room
 import com.normanaspx.norman_fri.FriApplication
 import com.normanaspx.norman_fri.api.PhotoDao
@@ -36,7 +37,7 @@ object AppModule {
 
 
     @Provides
-    fun providesUserDao(userDatabase: AppDatabase):PhotoDao = userDatabase.userDao()
+    fun providesUserDao(appDatabase: AppDatabase):PhotoDao = appDatabase.photoDao()
 
     @Provides
     @Singleton
@@ -45,7 +46,10 @@ object AppModule {
 
 
     @Provides
-    fun providesUserRepository2(userDao: PhotoDao, r: UnsplashApi) : UnsplashRepository
+    @Nullable
+    fun providesUserRepository2(r: UnsplashApi, userDao: PhotoDao) : UnsplashRepository
             = UnsplashRepository(r, userDao)
+
+
 
 }

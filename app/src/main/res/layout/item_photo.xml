@@ -17,15 +17,15 @@
         />
 
     <TextView
-        android:layout_width="wrap_content"
-        tools:text="username"
-        android:layout_margin="8dp"
         android:id="@+id/username"
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/imgCard"
+        android:layout_margin="8dp"
         android:gravity="center"
         android:textColor="#fff"
-        android:layout_alignBottom="@id/imgCard"
-        android:layout_height="wrap_content"/>
+        android:textStyle="bold"
+        tools:text="username" />
 
 
     <TextView

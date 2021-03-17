@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_favs"
+    app:startDestination="@id/favsFragment">
+
+    <fragment
+        android:id="@+id/favsFragment"
+        android:name="com.normanaspx.norman_fri.ui.favs.FavsFragment"
+        android:label="fragment_favs"
+        tools:layout="@layout/fragment_favs" >
+        <action
+            android:id="@+id/action_favsFragment_to_detailsFavsFragment"
+            app:destination="@id/detailsFavsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFavsFragment"
+        android:name="com.normanaspx.norman_fri.ui.favs.DetailsFavsFragment"
+        android:label="fragment_details_favs"
+        tools:layout="@layout/fragment_details_favs" >
+        <argument
+            android:name="Photo"
+            app:argType="com.normanaspx.norman_fri.data.Photo" />
+    </fragment>
+</navigation>

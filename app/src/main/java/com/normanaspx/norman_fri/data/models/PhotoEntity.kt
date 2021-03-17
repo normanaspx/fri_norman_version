@@ -20,9 +20,10 @@ data class PhotoEntity(
 
 @Entity(tableName = "UrlsEntity")
 data class UrlsEntity constructor(
-    val raw: String,
-    val full: String,
-    val regular: String,
+    val raw: String?,
+    val full: String?,
+    val regular: String?,
+    @PrimaryKey()
     @ForeignKey
         (
         entity = PhotoEntity::class,
@@ -31,11 +32,7 @@ data class UrlsEntity constructor(
         onDelete = CASCADE
     )
     var id_fkimage: String
-){
-    @PrimaryKey(autoGenerate = true)
-    var idUrls: Int = 0
-}
-
+)
 
 @Entity(tableName = "UserEntity")
 data class UserEntity(

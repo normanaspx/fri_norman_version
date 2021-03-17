@@ -2,10 +2,7 @@ package com.normanaspx.norman_fri.api
 
 import androidx.room.*
 import com.normanaspx.norman_fri.data.Photo
-import com.normanaspx.norman_fri.data.models.PhotoEntity
-import com.normanaspx.norman_fri.data.models.PhotoWithDetails
-import com.normanaspx.norman_fri.data.models.UrlsEntity
-import com.normanaspx.norman_fri.data.models.UserEntity
+import com.normanaspx.norman_fri.data.models.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -24,7 +21,8 @@ interface PhotoDao {
     @Delete
     suspend fun delete(photo: PhotoEntity)
 
+    @Transaction
     @Query("SELECT * FROM PhotoEntity")
-    fun getPhotos(): Flow<List<PhotoEntity>>
+    fun getPhotos(): Flow<List<PhotoWithDetails>>
 
 }
