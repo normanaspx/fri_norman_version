@@ -3,7 +3,7 @@
 
 
 ## Caracteristicas
-
+- Injeccion de Dependencias Hilt, para la base de datos: Room, Recyclerview, Patrom MVVM.
 - Buscador de imagenes consumiendo la API de unsplash
 - Opcion de guardar la imagen sin conexion
 
