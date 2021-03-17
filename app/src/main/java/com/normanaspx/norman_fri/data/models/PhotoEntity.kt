@@ -1,5 +1,6 @@
 package com.normanaspx.norman_fri.data.models
 
+import android.graphics.Bitmap
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 
@@ -23,6 +24,7 @@ data class UrlsEntity constructor(
     val raw: String?,
     val full: String?,
     val regular: String?,
+    val image: Bitmap,
     @PrimaryKey()
     @ForeignKey
         (

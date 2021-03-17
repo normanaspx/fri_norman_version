@@ -1,5 +1,6 @@
 package com.normanaspx.norman_fri.data
 
+import android.graphics.Bitmap
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
@@ -20,7 +21,8 @@ data class Photo(
         val full: String?,
         val regular: String?,
         val small: String,
-        val thumb: String
+        val thumb: String,
+        val image: Bitmap
     ) : Parcelable
     @Parcelize
     data class User(
