@@ -29,7 +29,7 @@ data class Photo(
         val id: String,
         val name: String,
         val username: String,
-        val bio: String = "",
+        var bio: String = "",
         val instagram_username: String,
         val twitter_username: String
     ) : Parcelable {

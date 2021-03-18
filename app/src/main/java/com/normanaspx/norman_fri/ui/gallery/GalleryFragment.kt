@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.normanaspx.norman_fri.R
@@ -79,8 +80,11 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), UnsplashPhotoAdapte
         })
     }
 
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }

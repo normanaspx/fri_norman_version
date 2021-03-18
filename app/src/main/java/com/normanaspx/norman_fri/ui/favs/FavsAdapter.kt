@@ -74,7 +74,7 @@ class FavsAdapter(
         fun bind(photo: Photo) {
             binding.apply {
                 Glide.with(itemView)
-                    .load(photo.urls.regular)
+                    .load(photo.urls.image)
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_favorite_border_24px)

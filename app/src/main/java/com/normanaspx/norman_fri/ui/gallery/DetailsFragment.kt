@@ -1,6 +1,8 @@
 package com.normanaspx.norman_fri.ui.gallery
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -27,8 +29,12 @@ import com.normanaspx.norman_fri.data.models.UrlsEntity
 import com.normanaspx.norman_fri.data.models.UserEntity
 import com.normanaspx.norman_fri.databinding.FragmentDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import id.zelory.compressor.Compressor
 import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
 
 
 /**
@@ -49,6 +55,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             val photo = args.photo
             lifecycleScope.launch{
                 bit =  getBitmap(photo.urls.regular!!)
+                this@DetailsFragment.context?.let { it1 -> saveToInternalStorage(it1, bit, photo.id) }
             }
             Glide.with(this@DetailsFragment)
                 .load(photo.urls.regular)
@@ -102,11 +109,15 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                         .into(imgLike)
                 }
 
+                if(photo.user.bio.isNullOrEmpty()) photo.user.bio = ""
                 val photoDetail: PhotoWithDetails = PhotoWithDetails(
                     PhotoEntity(photo.id, photo.description, photo.likes, photo.like),
-                    UrlsEntity(photo.urls.raw, photo.urls.full, photo.urls.regular, bit, photo.id),
+                    UrlsEntity(photo.urls.raw, photo.urls.full, photo.urls.regular,photo.id),
                     UserEntity(photo.user.id, photo.user.username, photo.user.name, photo.user.bio, photo.id)
                 )
+
+
+
 
                 userViewModel.insert(photoDetail)
             }
@@ -119,6 +130,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
     }
 
+
     private suspend fun getBitmap(img: String ): Bitmap {
         val loading = this@DetailsFragment.context?.let { ImageLoader(it) }
         val request = this@DetailsFragment.context?.let {
@@ -130,4 +142,14 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         val result = (request?.let { loading?.execute(it) } as SuccessResult).drawable
         return (result as BitmapDrawable).bitmap
     }
+
+    private fun saveToInternalStorage(context: Context, bitmapImage: Bitmap, imageFileName: String): String {
+        context.openFileOutput(imageFileName, Context.MODE_PRIVATE).use { fos ->
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 25, fos)
+        }
+        return context.filesDir.absolutePath
+    }
+
+
+
 }

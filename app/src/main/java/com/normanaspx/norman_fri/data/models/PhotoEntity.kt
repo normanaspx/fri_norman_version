@@ -24,7 +24,6 @@ data class UrlsEntity constructor(
     val raw: String?,
     val full: String?,
     val regular: String?,
-    val image: Bitmap,
     @PrimaryKey()
     @ForeignKey
         (

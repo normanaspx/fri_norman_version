@@ -1,31 +1,26 @@
 package com.normanaspx.norman_fri.ui.favs
 
+import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.normanaspx.norman_fri.R
 import com.normanaspx.norman_fri.data.Photo
 import com.normanaspx.norman_fri.data.models.PhotoWithDetails
+import com.normanaspx.norman_fri.databinding.FragmentFavsBinding
 import com.normanaspx.norman_fri.ui.gallery.GalleryViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import coil.ImageLoader
-import coil.request.ImageRequest
-import coil.request.SuccessResult
-import com.normanaspx.norman_fri.databinding.FragmentFavsBinding
 import kotlinx.android.synthetic.main.item_photo.*
-import kotlinx.coroutines.launch
-import java.lang.Exception
+import java.io.File
+import java.io.FileInputStream
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -66,8 +61,14 @@ class FavsFragment : Fragment(R.layout.fragment_favs), FavsAdapter.OnItemClickLi
                             item.photo.description,
                             item.photo.likes,
                             item.photo.like,
-                            Photo.Urls(item.urls!!.raw, item.urls.full, item.urls.regular,
-                                "", "",item.urls.image),
+                            Photo.Urls(
+                                item.urls!!.raw, item.urls.full, item.urls.regular,
+                                "", "",
+                                getImageFromInternalStorage(
+                                    this@FavsFragment.context,
+                                    item.photo.id
+                                )
+                            ),
                             Photo.User(
                                 item.user!!.idUser,
                                 item.user.name,
@@ -111,28 +112,26 @@ class FavsFragment : Fragment(R.layout.fragment_favs), FavsAdapter.OnItemClickLi
         }
         return super.onCreateOptionsMenu(menu, inflater)
     }
-
+    private fun getImageFromInternalStorage(context: Context?, imageFileName: String): Bitmap {
+        val directory = context?.filesDir
+        val file = File(directory, imageFileName)
+        return BitmapFactory.decodeStream(FileInputStream(file))
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-
     override fun onItemClick(photo: Photo) {
         val action = FavsFragmentDirections.actionFavsFragmentToDetailsFavsFragment(photo)
         findNavController().navigate(action)
+
+        this.closefragment()
     }
 
-    private suspend fun getBitmap(img: String): Bitmap {
-        val loading = this@FavsFragment.context?.let { ImageLoader(it) }
-        val request =  this@FavsFragment.context?.let {
-            ImageRequest.Builder(it)
-                .data(img)
-                .build()
-        }
+    private fun closefragment() {
 
-        val result = (request?.let { loading?.execute(it) } as SuccessResult).drawable
-        return (result as BitmapDrawable).bitmap
     }
+
 }
 

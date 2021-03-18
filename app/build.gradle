@@ -77,6 +77,10 @@ dependencies {
 
     //Coli
     implementation("io.coil-kt:coil:1.0.0-rc3")
+
+    //Compresor
+    implementation 'id.zelory:compressor:3.0.0'
+
 }
 kapt {
     correctErrorTypes true

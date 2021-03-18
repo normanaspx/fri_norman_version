@@ -1,6 +1,8 @@
 package com.normanaspx.norman_fri.ui.favs
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -31,6 +33,8 @@ import com.normanaspx.norman_fri.ui.gallery.GalleryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileInputStream
 
 
 /**
@@ -51,13 +55,8 @@ class DetailsFavsFragment : Fragment(R.layout.fragment_details_favs) {
 
         binding.apply {
             val photo = args.Photo
-
-            lifecycleScope.launch{
-              bit =  getBitmap(photo.urls.regular!!)
-            }
-
             Glide.with(this@DetailsFavsFragment)
-                .load(photo.urls.full)
+                .load(getImageFromInternalStorage(this@DetailsFavsFragment.context, photo.id))
                 .error(R.drawable.ic_error)
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
@@ -90,30 +89,28 @@ class DetailsFavsFragment : Fragment(R.layout.fragment_details_favs) {
 
             photo.like = true;
             checkLike(photo, null)
-
-            textViewDesc.text = photo.description
-            textViewUsername.apply {
-                text = "@${photo.user.username}"
-                setTypeface(null, Typeface.BOLD)
-            }
-
             imgLike.setOnClickListener {
                 val photoDetail: PhotoWithDetails = PhotoWithDetails(
                     PhotoEntity(photo.id, photo.description, photo.likes, photo.like),
-                    UrlsEntity(photo.urls.raw, photo.urls.full, photo.urls.regular, bit ,photo.id),
+                    UrlsEntity(photo.urls.raw, photo.urls.full, photo.urls.regular, photo.id),
                     UserEntity(photo.user.id, photo.user.name, photo.user.username, photo.user.bio, photo.id)
                 )
                 userViewModel.insert(photoDetail)
                 checkLike(photo, photoDetail)
             }
             //user
+            textViewDesc.text = photo.description
+            textViewUsername.apply {
+                text = "@${photo.user.username}"
+                setTypeface(null, Typeface.BOLD)
+            }
             textViewName.text=photo.user.name
             textViewBio.text=photo.user.bio
         }
     }
 
 
-    fun checkLike(photo: Photo, p: PhotoWithDetails?){
+    private fun checkLike(photo: Photo, p: PhotoWithDetails?){
         if(photo.like){
             photo.like = false
             Glide.with(this@DetailsFavsFragment)
@@ -131,16 +128,10 @@ class DetailsFavsFragment : Fragment(R.layout.fragment_details_favs) {
         }
     }
 
-    private suspend fun getBitmap(img: String ): Bitmap {
-        val loading = this@DetailsFavsFragment.context?.let { ImageLoader(it) }
-        val request = this@DetailsFavsFragment.context?.let {
-            ImageRequest.Builder(it)
-                .data(img)
-                .build()
-        }
 
-        val result = (request?.let { loading?.execute(it) } as SuccessResult).drawable
-        return (result as BitmapDrawable).bitmap
+    private fun getImageFromInternalStorage(context: Context?, imageFileName: String): Bitmap? {
+        val directory = context?.filesDir
+        val file = File(directory, imageFileName)
+        return BitmapFactory.decodeStream(FileInputStream(file))
     }
-
 }
